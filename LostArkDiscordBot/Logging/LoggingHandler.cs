@@ -1,0 +1,57 @@
+using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.Extensions.Logging;
+
+namespace LostArkDiscordBot.Logging;
+
+public class LoggingHandler
+{
+    private readonly CommandService commandService;
+    private readonly DiscordSocketClient discordClient;
+    private readonly ILogger<LoggingHandler> logger;
+
+    public LoggingHandler(DiscordSocketClient discordClient, CommandService commandService,
+        ILogger<LoggingHandler> logger)
+    {
+        this.discordClient = discordClient;
+        this.commandService = commandService;
+        this.logger = logger;
+    }
+
+    public void Initialize()
+    {
+        discordClient.Log += LogAsync;
+        commandService.Log += LogAsync;
+    }
+
+    private Task LogAsync(LogMessage message)
+    {
+        switch (message.Severity)
+        {
+            case LogSeverity.Critical:
+                logger.LogCritical(message.Exception, message.Message);
+                break;
+            case LogSeverity.Error:
+                logger.LogError(message.Exception, message.Message);
+                break;
+            case LogSeverity.Warning:
+                logger.LogWarning(message.Exception, message.Message);
+                break;
+            case LogSeverity.Info:
+                logger.LogInformation(message.Exception, message.Message);
+                break;
+            case LogSeverity.Verbose:
+                logger.LogDebug(message.Exception, message.Message);
+                break;
+            case LogSeverity.Debug:
+                logger.LogDebug(message.Exception, message.Message);
+                break;
+            default:
+                logger.LogError(message.Exception, message.Message);
+                break;
+        }
+
+        return Task.CompletedTask;
+    }
+}

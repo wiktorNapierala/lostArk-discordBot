@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E35266A3-9C8B-4413-AA9D-E98F0379B1B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LostArkDiscordBot", "LostArkDiscordBot\LostArkDiscordBot.csproj", "{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE} = {E35266A3-9C8B-4413-AA9D-E98F0379B1B0}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD8C7401-F16C-44CC-9A02-B75D98CFEEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
