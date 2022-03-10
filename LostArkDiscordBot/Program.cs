@@ -11,6 +11,8 @@ static IHostBuilder CreateHostBuilder(string[] args)
 {
     var exeDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
     return Host.CreateDefaultBuilder(args)
+        .UseSystemd()
+        .UseWindowsService()
         .ConfigureHostConfiguration(config =>
         {
             config.AddEnvironmentVariables();
