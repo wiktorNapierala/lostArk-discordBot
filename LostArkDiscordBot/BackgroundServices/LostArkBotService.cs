@@ -10,32 +10,33 @@ namespace LostArkDiscordBot.BackgroundServices;
 
 public class LostArkBotService : BackgroundServiceWithLogging
 {
-    private readonly CommandsHandler commandsHandler;
+    private readonly CommandHandler commandHandler;
     private readonly DiscordSocketClient discordClient;
     private readonly LoggingHandler loggingHandler;
     private readonly IOptions<LostArkBotOptions> options;
     private readonly IBotVersionProvider versionProvider;
 
-    public LostArkBotService(DiscordSocketClient discordClient, CommandsHandler commandsHandler,
+    public LostArkBotService(DiscordSocketClient discordClient,
         IBotVersionProvider versionProvider,
         LoggingHandler loggingHandler,
         IOptions<LostArkBotOptions> options,
-        ILogger<LostArkBotService> logger)
+        ILogger<LostArkBotService> logger,
+        CommandHandler commandHandler)
         : base(logger)
     {
         this.discordClient = discordClient;
-        this.commandsHandler = commandsHandler;
         this.versionProvider = versionProvider;
         this.loggingHandler = loggingHandler;
         this.options = options;
+        this.commandHandler = commandHandler;
     }
 
     public override async Task StartAsync(CancellationToken cancellationToken)
     {
+        await commandHandler.InitializeAsync();
         discordClient.GuildAvailable += OnGuildAvailable;
-        await discordClient.LoginAsync(TokenType.Bot, options.Value.Token);
-        await commandsHandler.InitializeAsync();
         loggingHandler.Initialize();
+        await discordClient.LoginAsync(TokenType.Bot, options.Value.Token);
         await base.StartAsync(cancellationToken);
     }
 

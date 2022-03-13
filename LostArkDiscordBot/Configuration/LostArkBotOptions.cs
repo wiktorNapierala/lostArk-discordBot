@@ -6,4 +6,5 @@ public class LostArkBotOptions
 
     public string Nickname { get; set; } = "Lost Ark Bot";
     public string Token { get; set; } = string.Empty;
+    public ulong? TestGuildId { get; set; }
 }

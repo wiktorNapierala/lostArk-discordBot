@@ -1,5 +1,4 @@
 using Discord;
-using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Logging;
 
@@ -7,22 +6,19 @@ namespace LostArkDiscordBot.Logging;
 
 public class LoggingHandler
 {
-    private readonly CommandService commandService;
     private readonly DiscordSocketClient discordClient;
     private readonly ILogger<LoggingHandler> logger;
 
-    public LoggingHandler(DiscordSocketClient discordClient, CommandService commandService,
+    public LoggingHandler(DiscordSocketClient discordClient,
         ILogger<LoggingHandler> logger)
     {
         this.discordClient = discordClient;
-        this.commandService = commandService;
         this.logger = logger;
     }
 
     public void Initialize()
     {
         discordClient.Log += LogAsync;
-        commandService.Log += LogAsync;
     }
 
     private Task LogAsync(LogMessage message)

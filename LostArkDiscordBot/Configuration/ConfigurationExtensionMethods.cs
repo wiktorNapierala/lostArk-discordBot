@@ -1,4 +1,4 @@
-using Discord.Commands;
+using Discord.Interactions;
 using Discord.WebSocket;
 using LostArkDiscordBot.BackgroundServices;
 using LostArkDiscordBot.Commands;
@@ -23,11 +23,14 @@ public static class ConfigurationExtensionMethods
     {
         collection.Configure<LostArkBotOptions>(context.Configuration.GetSection(LostArkBotOptions.SectionName));
         collection.AddSingleton<DiscordSocketConfig, LostArkBotDiscordSocketConfig>();
+        collection.AddSingleton<LostArkBotInteractionServiceConfig>();
+        collection.AddSingleton<DiscordSocketClient>();
+        collection.AddSingleton(services => new InteractionService(
+            services.GetRequiredService<DiscordSocketClient>(),
+            services.GetRequiredService<LostArkBotInteractionServiceConfig>()));
         collection.AddSingleton<IBotVersionProvider, BotVersionProvider>();
         collection.AddSingleton<LoggingHandler>();
-        collection.AddSingleton<CommandService>();
-        collection.AddSingleton<CommandsHandler>();
-        collection.AddSingleton<DiscordSocketClient>();
+        collection.AddSingleton<CommandHandler>();
         collection.AddHostedService<LostArkBotService>();
     }
 }
