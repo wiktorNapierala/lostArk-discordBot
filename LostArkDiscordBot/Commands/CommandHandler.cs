@@ -32,7 +32,8 @@ namespace LostArkDiscordBot.Commands
         {
             await interactionService.AddModulesAsync(Assembly.GetEntryAssembly(), services);
             client.Ready += RegisterCommandsAsync;
-            client.InteractionCreated += HandleInteraction;
+            client.InteractionCreated += HandleInteractionCreated;
+            client.ButtonExecuted += HandleButtonExecuted;
         }
 
         private async Task RegisterCommandsAsync()
@@ -46,7 +47,7 @@ namespace LostArkDiscordBot.Commands
             await interactionService.RegisterCommandsGloballyAsync();
         }
 
-        private async Task HandleInteraction(SocketInteraction arg)
+        private async Task HandleInteractionCreated(SocketInteraction arg)
         {
             try
             {
@@ -63,6 +64,12 @@ namespace LostArkDiscordBot.Commands
                 if(arg.Type == InteractionType.ApplicationCommand)
                     await arg.GetOriginalResponseAsync().ContinueWith(async (msg) => await msg.Result.DeleteAsync());
             }
+        }
+
+        private async Task HandleButtonExecuted(SocketMessageComponent arg)
+        {
+            var ctx = new SocketInteractionContext<SocketMessageComponent>(client, arg);
+            await interactionService.ExecuteCommandAsync(ctx, services);
         }
     }
 }

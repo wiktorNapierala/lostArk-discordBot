@@ -2,6 +2,13 @@
 using LostArkDiscordBot.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Verbose()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
 
 var app = CreateHostBuilder(args).Build();
 
@@ -25,5 +32,6 @@ static IHostBuilder CreateHostBuilder(string[] args)
                 .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", true)
                 .AddEnvironmentVariables();
         })
-        .ConfigureBotServices();
+        .ConfigureBotServices()
+        .UseSerilog();
 }
