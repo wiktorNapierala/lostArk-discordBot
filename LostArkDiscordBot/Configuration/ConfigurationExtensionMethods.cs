@@ -15,13 +15,14 @@ public static class ConfigurationExtensionMethods
         return hostBuilder.ConfigureServices((context, collection) =>
         {
             collection.AddLogging();
-            collection.AddCryptoBotService(context);
+            collection.AddDiscordBotService(context);
         });
     }
 
-    private static void AddCryptoBotService(this IServiceCollection collection, HostBuilderContext context)
+    private static void AddDiscordBotService(this IServiceCollection collection, HostBuilderContext context)
     {
         collection.Configure<LostArkBotOptions>(context.Configuration.GetSection(LostArkBotOptions.SectionName));
+        collection.AddSingleton<DiscordSocketConfig, LostArkBotDiscordSocketConfig>();
         collection.AddSingleton<IBotVersionProvider, BotVersionProvider>();
         collection.AddSingleton<LoggingHandler>();
         collection.AddSingleton<CommandService>();
